@@ -10,7 +10,7 @@ public class ControllerTut : MonoBehaviour
     public Transform chracter;
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        //  Cursor.lockState = CursorLockMode.Locked;
         rb = gameObject.GetComponent<Rigidbody>();
 
     }

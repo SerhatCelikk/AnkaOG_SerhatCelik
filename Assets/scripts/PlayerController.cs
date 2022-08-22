@@ -7,6 +7,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float _speed = 3;
     [SerializeField] private float _jumpForce = 200;
     [SerializeField] public Rigidbody _rb;
+    public int leftJump;
+    public bool atTerrain;
+    public bool isDead=false;
     public Transform cameraWay;
     // Start is called before the first frame update
     void Start()
@@ -24,7 +27,26 @@ public class PlayerController : MonoBehaviour
 
         vel.y = _rb.velocity.y;
         _rb.velocity = vel;
-        if (Input.GetKeyDown(KeyCode.Space)) _rb.AddForce(Vector3.up * _jumpForce);
+        if (Input.GetKeyDown(KeyCode.Space) )
+        {
+            _rb.AddForce(Vector3.up * _jumpForce);
+            leftJump--;
+            atTerrain = false;
+        }
+        else if (Input.GetKeyDown(KeyCode.Space))
+        {
+            _rb.AddForce(Vector3.up * _jumpForce);
+            leftJump--;
+            atTerrain = false;
+        }
+        if (gameObject.transform.position.y <= 0)
+        {
+            isDead=true;
+            Destroy(gameObject, 1);
+        }
+        //  if (Input.GetKey(KeyCode.Space))
+        //      Cursor.lockState = CursorLockMode.None;
+
     }
     /// <summary>
     /// OnCollisionEnter is called when this collider/rigidbody has begun
@@ -34,6 +56,8 @@ public class PlayerController : MonoBehaviour
     void OnCollisionEnter(Collision other)
     {
         Debug.Log(other.collider.gameObject.name);
+        atTerrain = true;
+        leftJump = 2;
     }
     /// <summary>
     /// OnTriggerEnter is called when the Collider other enters the trigger.
@@ -42,5 +66,10 @@ public class PlayerController : MonoBehaviour
     void OnTriggerStay(Collider other)
     {
         Debug.Log(other.GetComponent<Collider>().gameObject.name);
+
+    }
+    void OnTriggerEnter(Collider other)
+    {
+
     }
 }
